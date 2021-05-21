@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>位置情報取得&map表示</title>
+
+  </style>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+
+</head>
+
+<body>
+  <div>
+    <h1>天気予報</h1>
+    <div class="contena">
+      <select id="cityName">
+        <option value="first">地名</option>
+        <option value="fukuoka">福岡市</option>
+        <option value="saga">佐賀市</option>
+        <option value="naha">那覇市</option>
+      </select>
+      <p id="tenki"></p>
+      <p id="kion"></p>
+    </div>
+  </div>
+
+
+
+  <!-- weather用  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓-------------------------------------------------------------------------------------------------- -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+  <!-- axiosライブラリの読み込み -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <!-- 現在の天気を取得する場所の名前 -->
+  <script>
+    $("#cityName").change(function () {
+      const city = $("#cityName").val();
+      // const cityName = $('#city').text();
+      console.log(city);
+      // リクエストを送るurlを準備
+      const url = "https://api.openweathermap.org/data/2.5/weather";
+      // Key
+      // この中に欲しい町の情報が入ってる
+      const request = `${url}?APPID=${appId}&lang=ja&units=metric&q=${city},jp;`;
+
+      axios.get(request)
+        .then(function (response) {
+          // リクエスト成功時の処理(responseに結果が入っている)
+          console.log(response.data);
+          console.log(response.data.name);
+          console.log(response.data.weather[0].main);
+          console.log(response.data.main.temp);
+          $('#tenki').text((response.data.weather[0].main));
+          $('#kion').text((response.data.main.temp));
+        }).catch(function (error) {
+          // リクエスト失敗時の処理(errorにエラー内容が入っている)
+          console.log(error);
+        }).finally(function () {
+          // 成功失敗に関わらず必ず実行
+          console.log('done!');
+      });
+
+      // ひとこと---------------------------------
+      // リクエストを送るurlを準備
+      // const urlData =  "https://meigen.doodlenote.net/api/json.php?c=3";
+
+      
+
+
+
+    });
+
+
+
+
+  </script>  
+</body>
+
+</html>
